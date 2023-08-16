@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista de Valores com Soma</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Lista de Valores com Soma</h1>
+    <input type="text" id="nomeValor" placeholder="Nome do Valor" onkeyup="capitalizarPrimeiraLetra()">
+    <input type="text" id="valor" placeholder="Valor">
+
+    <button onclick="adicionarValor()">Adicionar Valor</button>
+    <br><br>
+    <h2>Valores Adicionados:</h2>
+    <ul id="listaValores">
+    </ul>
+    <h3>Total da Soma: <span id="totalSoma">0</span></h3>
+
+    <script>
+        function adicionarValor() {
+            var valor = parseFloat(document.getElementById('valor').value);
+            var nomeValor = document.getElementById('nomeValor').value;
+
+            if (!isNaN(valor) && nomeValor) {
+                var listaValores = document.getElementById('listaValores');
+                var listItem = document.createElement('li');
+                var capitalizedName = nomeValor.charAt(0).toUpperCase() + nomeValor.slice(1);
+                listItem.appendChild(document.createTextNode(`${capitalizedName}: ${valor}`));
+                listaValores.appendChild(listItem);
+
+                document.getElementById('valor').value = '';
+                document.getElementById('nomeValor').value = '';
+
+                calcularSoma();
+
+                // Voltar o foco para o campo de entrada do nomeValor
+                document.getElementById('nomeValor').focus();
+            }
+        }
+
+        function calcularSoma() {
+            var valores = document.querySelectorAll('#listaValores li');
+            var total = 0;
+            for (var i = 0; i < valores.length; i++) {
+                var textoValor = valores[i].textContent.split(':')[1].trim();
+                total += parseFloat(textoValor);
+            }
+            document.getElementById('totalSoma').innerText = total.toFixed(2);
+        }
+
+        function capitalizarPrimeiraLetra() {
+            var nomeValor = document.getElementById('nomeValor');
+            nomeValor.value = nomeValor.value.charAt(0).toUpperCase() + nomeValor.value.slice(1);
+        }
+    </script>
+</body>
+</html>
